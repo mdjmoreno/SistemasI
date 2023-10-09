@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import Login from './components/Login';
+import NavBar from './components/NavBar';
+import ListaDeCartas from './components/ListaDeCartas';
+import CrearCarta from './components/CrearCarta';
+
+
+function AppContent() {
+ 
+  const location = useLocation();
+
+  return (
+    <>
+      {/* Renderizar NavBar solo si la ruta no es '/login' */}
+      {location.pathname !== '/login' && <NavBar />}
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/lista-cartas" element={<ListaDeCartas />} />
+        <Route path="/crear-carta" element={<CrearCarta />} />
+      </Routes>
+    </>
+  );
+}
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 
