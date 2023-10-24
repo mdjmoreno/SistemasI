@@ -51,7 +51,7 @@ function CrearCarta() {
         id_receiver_user: user_receiver.id,
         emission_date: formData.emission_date,
         reception_date: formData.reception_date,
-        state: "1",
+        state: "pending to deliver",
       });
 
       const letter = await axios.post(`${url}goods-by-letter/create`, {

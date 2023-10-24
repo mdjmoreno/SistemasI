@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import GoBackButton from "./GoBackButton";
 import html2pdf from "html2pdf.js";
+import axios from "axios";
+
+const url = "http://nowports-api.test/api/instruction-cards";
 
 const mockCartas = [
   {
@@ -70,8 +73,18 @@ function ListaDeCartas() {
   const [searchId, setSearchId] = useState("");
   const [selectedCarta, setSelectedCarta] = useState(null);
 
+  const getLetters = async () => {
+    try {
+      const { data } = await axios.get(url);
+      console.log(data.data);
+      setCartas(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    setCartas(mockCartas);
+    getLetters();
   }, []);
 
   useEffect(() => {
@@ -90,10 +103,7 @@ function ListaDeCartas() {
 
   return (
     <div className="flex flex-col justify-center items-center h-screen p-4 bg-gray-100">
-      <div
-        id="carta"
-        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl"
-      >
+      <div id="carta" className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
         <GoBackButton />
         <h2 className="text-2xl mb-4">Carta de Instrucción</h2>
         <div className="mb-4">
@@ -108,63 +118,48 @@ function ListaDeCartas() {
         {selectedCarta && (
           <div id="cartaDetalle" className="divide-y divide-gray-200">
             <p>
-              <strong>Nombre:</strong> {selectedCarta.nombre}
+              <strong>Tipo de ubicacion:</strong> {selectedCarta.type_location}
             </p>
             <p>
-              <strong>Tipo:</strong> {selectedCarta.tipo}
+              <strong>Direccion del que envia:</strong> {selectedCarta.sender_location}
             </p>
             <p>
-              <strong>Dirección:</strong> {selectedCarta.direccion}
+              <strong>Dirección del que recibe:</strong> {selectedCarta.receiver_location}
             </p>
             <p>
-              <strong>Teléfono:</strong> {selectedCarta.telefono}
+              <strong>Teléfono del que recibe:</strong> {selectedCarta.phone}
             </p>
             <p>
-              <strong>Email:</strong> {selectedCarta.email}
+              <strong>Email del que recibe:</strong> {selectedCarta.receiver_email}
             </p>
             <p>
-              <strong>Ubicación:</strong> {selectedCarta.ubicacion}
+              <strong>Descripción:</strong> {selectedCarta.description}
             </p>
             <p>
-              <strong>Tipo Ubicación:</strong> {selectedCarta.tipoUbicacion}
+              <strong>Peso:</strong> {selectedCarta.weight}
             </p>
             <p>
-              <strong>Horario:</strong> {selectedCarta.horario}
+              <strong>Volumen:</strong> {selectedCarta.volume}
             </p>
             <p>
-              <strong>Descripción:</strong> {selectedCarta.descripcion}
+              <strong>Valor:</strong> {selectedCarta.price}
             </p>
             <p>
-              <strong>Peso:</strong> {selectedCarta.peso}
+              <strong>Categoría:</strong> {selectedCarta.product_type}
             </p>
             <p>
-              <strong>Volumen:</strong> {selectedCarta.volumen}
+              <strong>Fecha Emisión:</strong> {selectedCarta.emission_date}
             </p>
             <p>
-              <strong>Valor:</strong> {selectedCarta.valor}
+              <strong>Fecha Validez:</strong> {selectedCarta.reception_date}
             </p>
             <p>
-              <strong>Categoría:</strong> {selectedCarta.categoria}
-            </p>
-            <p>
-              <strong>Fecha Emisión:</strong> {selectedCarta.fechaEmision}
-            </p>
-            <p>
-              <strong>Fecha Validez:</strong> {selectedCarta.fechaValidez}
-            </p>
-            <p>
-              <strong>Estado:</strong> {selectedCarta.estado}
-            </p>
-            <p>
-              <strong>Observaciones:</strong> {selectedCarta.observaciones}
+              <strong>Estado:</strong> {selectedCarta.state}
             </p>
           </div>
         )}
         {selectedCarta && (
-          <button
-            onClick={exportToPdf}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
-          >
+          <button onClick={exportToPdf} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
             Exportar a PDF
           </button>
         )}
