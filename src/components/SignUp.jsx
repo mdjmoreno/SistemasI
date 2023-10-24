@@ -47,7 +47,7 @@ function SignUp({ onLogged }) {
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">Registra tu usuario</h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit} autoComplete="off">
-          <div className="rounded-md shadow-sm ">
+          <div className="rounded-md shadow-sm flex flex-col gap-y-3">
             <div>
               <label htmlFor="email" className="sr-only">
                 Email
@@ -58,7 +58,7 @@ function SignUp({ onLogged }) {
                 type="text"
                 required
                 autoComplete="off"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email"
                 onChange={handleChange}
               />
@@ -73,7 +73,7 @@ function SignUp({ onLogged }) {
                 type="text"
                 required
                 autoComplete="off"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Numero de telefono"
                 onChange={handleChange}
               />
@@ -88,7 +88,7 @@ function SignUp({ onLogged }) {
                 type="text"
                 required
                 autoComplete="off"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Direccion"
                 onChange={handleChange}
               />
@@ -103,7 +103,7 @@ function SignUp({ onLogged }) {
                 autoComplete="off"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Nombre"
                 onChange={handleChange}
               />
@@ -118,7 +118,7 @@ function SignUp({ onLogged }) {
                 type="password"
                 autoComplete="off"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Contraseña"
                 onChange={handleChange}
               />
