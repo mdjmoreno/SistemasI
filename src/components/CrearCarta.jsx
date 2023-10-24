@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import GoBackButton from "./GoBackButton";
 import axios from "axios";
+import { Oval } from "react-loader-spinner";
 
 const url = "http://nowports-api.test/api/";
 
@@ -18,6 +19,7 @@ function CrearCarta() {
     state: "",
     quantity: "",
   });
+  const [loader, setLoader] = useState(false);
 
   const handleChange = (e) => {
     const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -29,34 +31,41 @@ function CrearCarta() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoader(true);
     const currentUser = localStorage.getItem("currentUser");
     const users = await axios.get(`${url}user/find`);
     const user_receiver = users.data.data.find((user) => user.email === formData.email_receiver);
     const user_sender = users.data.data.find((user) => user.email === currentUser);
 
-    const resMerc = await axios.post(`${url}mercancias/create`, {
-      description: formData.description,
-      weight: formData.weight,
-      volume: formData.volume,
-      price: formData.price,
-      type: formData.type,
-    });
+    try {
+      const resMerc = await axios.post(`${url}mercancias/create`, {
+        description: formData.description,
+        weight: formData.weight,
+        volume: formData.volume,
+        price: formData.price,
+        type: formData.type,
+      });
 
-    const card = await axios.post(`${url}instruction-cards/create`, {
-      id_sender_user: user_sender.id,
-      id_receiver_user: user_receiver.id,
-      emission_date: formData.emission_date,
-      reception_date: formData.reception_date,
-      state: "1",
-    });
+      const card = await axios.post(`${url}instruction-cards/create`, {
+        id_sender_user: user_sender.id,
+        id_receiver_user: user_receiver.id,
+        emission_date: formData.emission_date,
+        reception_date: formData.reception_date,
+        state: "1",
+      });
 
-    const letter = await axios.post(`${url}goods-by-letter/create`, {
-      id_instruction_card: card.data.data.id,
-      id_mercancia: resMerc.data.data.id,
-      quantity: formData.quantity,
-    });
-
-    console.log(letter);
+      const letter = await axios.post(`${url}goods-by-letter/create`, {
+        id_instruction_card: card.data.data.id,
+        id_mercancia: resMerc.data.data.id,
+        quantity: formData.quantity,
+      });
+      alert("Carta creada con exito.");
+      console.log(letter);
+    } catch (error) {
+      alert("Problema creando la data.");
+      console.log(error);
+    }
+    setLoader(false);
 
     // Lógica de envío de formulario
   };
@@ -198,6 +207,22 @@ function CrearCarta() {
           <button type="submit" className="w-full p-2 mt-4 bg-blue-500 text-white rounded hover:bg-blue-600">
             Crear Carta
           </button>
+          <div className="w-full flex justify-center items-center mt-2">
+            {loader && (
+              <Oval
+                height={50}
+                width={50}
+                color="#0000FF"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="oval-loading"
+                secondaryColor="#4fa94d"
+                strokeWidth={2}
+                strokeWidthSecondary={2}
+              />
+            )}
+          </div>
         </form>
       </div>
     </div>
