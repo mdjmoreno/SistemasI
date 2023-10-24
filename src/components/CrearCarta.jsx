@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import GoBackButton from "./GoBackButton";
+import axios from "axios";
+
+const url = "http://nowports-api.test/api/";
 
 function CrearCarta() {
   const [formData, setFormData] = useState({
@@ -24,9 +27,37 @@ function CrearCarta() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("SUBMIT: ", formData);
+    const currentUser = localStorage.getItem("currentUser");
+    const users = await axios.get(`${url}user/find`);
+    const user_receiver = users.data.data.find((user) => user.email === formData.email_receiver);
+    const user_sender = users.data.data.find((user) => user.email === currentUser);
+
+    const resMerc = await axios.post(`${url}mercancias/create`, {
+      description: formData.description,
+      weight: formData.weight,
+      volume: formData.volume,
+      price: formData.price,
+      type: formData.type,
+    });
+
+    const card = await axios.post(`${url}instruction-cards/create`, {
+      id_sender_user: user_sender.id,
+      id_receiver_user: user_receiver.id,
+      emission_date: formData.emission_date,
+      reception_date: formData.reception_date,
+      state: "1",
+    });
+
+    const letter = await axios.post(`${url}goods-by-letter/create`, {
+      id_instruction_card: card.data.data.id,
+      id_mercancia: resMerc.data.data.id,
+      quantity: formData.quantity,
+    });
+
+    console.log(letter);
+
     // Lógica de envío de formulario
   };
 
